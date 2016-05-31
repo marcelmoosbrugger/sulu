@@ -16,11 +16,11 @@ use Sulu\Component\Security\Authentication\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
- * Passes the ckeditor toolbar into the js-config.
+ * Passes the text-editor toolbar into the js-config.
  */
-class CKEditorJsConfig implements JsConfigInterface
+class TextEditorJsConfig implements JsConfigInterface
 {
-    const SETTING_KEY = 'ckeditor-toolbar';
+    const SETTING_KEY = 'texteditor-toolbar';
 
     /**
      * @var TokenStorageInterface
@@ -67,9 +67,7 @@ class CKEditorJsConfig implements JsConfigInterface
 
         // array_merge_recursive accepts non-unique values they have to be removed
         foreach (array_keys($result) as $section) {
-            // array_count_values seems to be about 10 times faster than ary_unique
-            // see http://www.exakat.io/avoid-array_unique/
-            $result[$section] = array_keys(array_count_values($result[$section]));
+            $result[$section] = array_unique($result[$section]);
         }
 
         return ['settingKey' => self::SETTING_KEY, 'userToolbar' => $result];
@@ -80,6 +78,6 @@ class CKEditorJsConfig implements JsConfigInterface
      */
     public function getName()
     {
-        return 'sulu_content.ckeditor_toolbar';
+        return 'sulu_content.texteditor_toolbar';
     }
 }

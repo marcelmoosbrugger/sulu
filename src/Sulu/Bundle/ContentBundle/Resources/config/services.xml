@@ -104,7 +104,7 @@
 
             <tag name="sulu.js_config"/>
         </service>
-        <service id="sulu_content.jsconfig.ckeditor_toolbar" class="Sulu\Bundle\ContentBundle\Admin\CKEditorJsConfig">
+        <service id="sulu_content.jsconfig.texteditor_toolbar" class="Sulu\Bundle\ContentBundle\Admin\TextEditorJsConfig">
             <argument type="service" id="security.token_storage"/>
 
             <tag name="sulu.js_config"/>

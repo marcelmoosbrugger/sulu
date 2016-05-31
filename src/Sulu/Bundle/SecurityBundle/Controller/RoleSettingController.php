@@ -37,9 +37,9 @@ class RoleSettingController extends RestController implements ClassResourceInter
      */
     public function getAction($roleId, $key)
     {
-        return $this->handleView(
-            $this->view($this->get('sulu_security.role_setting_repository')->findSettingValue($roleId, $key))
-        );
+        $settingValue = $this->get('sulu_security.role_setting_repository')->findSettingValue($roleId, $key);
+
+        return $this->handleView($this->view($settingValue));
     }
 
     /**
@@ -62,7 +62,7 @@ class RoleSettingController extends RestController implements ClassResourceInter
         }
 
         $setting->setKey($key);
-        $setting->setValue($request->get('value'));
+        $setting->setValue($request->get('value', []));
         $setting->setRole($entityManager->getReference(Role::class, $roleId));
 
         $entityManager->persist($setting);

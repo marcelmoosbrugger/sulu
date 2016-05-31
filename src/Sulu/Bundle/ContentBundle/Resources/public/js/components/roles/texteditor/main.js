@@ -22,12 +22,12 @@ define([
         defaults: {
             options: {},
             translations: {
-                title: 'security.roles.ckeditor.title',
+                title: 'sulu-content.ckeditor.roles-title',
                 all: 'security.roles.all',
                 none: 'security.roles.none',
-                type: 'security.roles.ckeditor.type',
-                horizontal: 'security.roles.ckeditor.horizontal',
-                info: 'security.roles.ckeditor.info',
+                type: 'sulu-content.ckeditor.roles-type',
+                horizontal: 'sulu-content.ckeditor.roles-horizontal',
+                info: 'sulu-content.ckeditor.roles-info',
                 warning: 'security.warning'
             },
             templates: {
@@ -36,7 +36,7 @@ define([
         },
 
         initialize: function() {
-            this.toolbar = this.sandbox.ckeditor.getAvailableToolbar();
+            this.toolbar = this.sandbox.ckeditor.getAvailableToolbarSections();
 
             this.render();
 
@@ -54,25 +54,17 @@ define([
             this.sandbox.on('sulu.header.back', RoleRouter.toList);
             this.sandbox.on('husky.matrix.changed', this.changeData.bind(this));
             this.sandbox.on('husky.matrix.changed', function() {
-                this.sandbox.emit('sulu.header.toolbar.item.enable', 'save', true);
+                this.sandbox.emit('sulu.header.toolbar.item.enable', 'save', false);
             }.bind(this));
             this.sandbox.on('sulu.toolbar.save', this.save.bind(this));
-
-            // delete
-            this.sandbox.on('sulu.toolbar.delete', function() {
-                this.sandbox.sulu.showDeleteDialog(function(wasConfirmed) {
-                    if (wasConfirmed) {
-                        this.data.destroy();
-                    }
-                }.bind(this));
-            }.bind(this));
+            this.sandbox.on('sulu.toolbar.delete', this.delete.bind(this));
         },
 
         render: function() {
             var values = this.prepareMatrixValues();
             var data = this.prepareMatrixData();
 
-            this.$el.html(this.templates.skeleton({translations: this.translations, content: this.data.toJSON()}));
+            this.$el.html(this.templates.skeleton({translations: this.translations, content: this.data.roleModel.toJSON()}));
 
             this.sandbox.start([
                 {
@@ -116,7 +108,7 @@ define([
             for (var section in this.toolbar) {
                 data.push(
                     _.map(this.toolbar[section], function(item) {
-                        return _.contains(this.data.toolbar[section], item);
+                        return _.contains(this.data.toolbarRights[section], item);
                     }.bind(this))
                 );
             }
@@ -126,39 +118,47 @@ define([
 
         changeData: function(data) {
             if (typeof(data.value) !== 'string') {
-                this.sandbox.dom.each(data.value, function(key, value) {
-                    this.changeData({section: data.section, value: value.value, activated: data.activated});
+                this.sandbox.dom.each(data.value, function(key, nestedData) {
+                    this.changeData({section: data.section, value: nestedData.value, activated: data.activated});
                 }.bind(this));
 
                 return;
             }
 
             if (!!data.activated) {
-                if (_.contains(this.data.toolbar[data.section], data.value)) {
+                if (_.contains(this.data.toolbarRights[data.section], data.value)) {
                     return;
                 }
 
-                if (!this.data.toolbar[data.section]) {
-                    this.data.toolbar[data.section] = [];
+                if (!this.data.toolbarRights[data.section]) {
+                    this.data.toolbarRights[data.section] = [];
                 }
 
-                this.data.toolbar[data.section].push(data.value);
+                this.data.toolbarRights[data.section].push(data.value);
 
                 return;
             }
 
-            var index = this.data.toolbar[data.section].indexOf(data.value);
+            var index = this.data.toolbarRights[data.section].indexOf(data.value);
             if (index > -1) {
-                this.data.toolbar[data.section].splice(index, 1);
+                this.data.toolbarRights[data.section].splice(index, 1);
             }
+        },
+
+        delete: function() {
+            this.sandbox.sulu.showDeleteDialog(function(wasConfirmed) {
+                if (wasConfirmed) {
+                    this.data.roleModel.destroy();
+                }
+            }.bind(this));
         },
 
         save: function(action) {
             this.sandbox.emit('sulu.header.toolbar.item.loading', 'save');
 
-            $.ajax('/admin/api/roles/' + this.data.id + '/settings/ckeditor-toolbar', {
+            $.ajax('/admin/api/roles/' + this.data.roleModel.get('id') + '/settings/texteditor-toolbar', {
                 method: 'PUT',
-                data: {value: this.data.toolbar}
+                data: {value: this.data.toolbarRights}
             }).then(function() {
                 this.sandbox.emit('sulu.header.toolbar.item.disable', 'save', true);
                 this.sandbox.emit('sulu.labels.warning.show', this.translations.warning);
@@ -168,20 +168,29 @@ define([
                 } else if (action === 'new') {
                     RoleRouter.toAdd();
                 }
-            }.bind(this)).fail(function(){
-                this.sandbox.emit('sulu.header.toolbar.item.enable', 'save', true);
+            }.bind(this)).fail(function() {
+                this.sandbox.emit('sulu.header.toolbar.item.enable', 'save', false);
             }.bind(this));
         },
 
         loadComponentData: function() {
-            var data = this.options.data();
+            var roleModel = this.options.data();
             var def = $.Deferred();
 
-            $.getJSON('/admin/api/roles/' + data.get('id') + '/settings/ckeditor-toolbar').then(function(toolbar) {
+            $.getJSON('/admin/api/roles/' + roleModel.get('id') + '/settings/texteditor-toolbar').then(function(toolbar) {
                 // default all selected
-                data.toolbar = toolbar || this.sandbox.ckeditor.getAvailableToolbar();
+                var toolbarRights = toolbar || this.sandbox.ckeditor.getAvailableToolbarSections();
 
-                def.resolve(data);
+                // The server may return an array instead of an object as it can't distinguish between a "normal"
+                // array and an associative one.
+                if ($.isArray(toolbarRights) && toolbarRights.length === 0) {
+                    toolbarRights = {};
+                }
+
+                def.resolve({
+                    roleModel: roleModel,
+                    toolbarRights: toolbarRights
+                });
             }.bind(this));
 
             return def.promise();

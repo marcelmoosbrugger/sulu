@@ -163,7 +163,7 @@ class Role extends BaseRole
      */
     public function addSetting(RoleSetting $setting)
     {
-        $this->settings[] = $setting;
+        $this->settings->set($setting->getKey(), $setting);
 
         return $this;
     }
@@ -175,7 +175,7 @@ class Role extends BaseRole
      */
     public function removeSetting(RoleSetting $setting)
     {
-        $this->settings->removeElement($setting);
+        $this->settings->remove($setting->getKey());
     }
 
     /**
@@ -193,16 +193,6 @@ class Role extends BaseRole
      */
     public function getSetting($key)
     {
-        $filteredSettings = $this->settings->filter(
-            function (RoleSetting $setting) use ($key) {
-                return $setting->getKey() === $key;
-            }
-        );
-
-        if ($filteredSettings->count() === 0) {
-            return;
-        }
-
-        return $filteredSettings->first();
+        return $this->settings->get($key);
     }
 }

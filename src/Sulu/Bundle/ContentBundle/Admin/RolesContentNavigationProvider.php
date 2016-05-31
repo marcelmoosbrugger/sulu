@@ -24,11 +24,11 @@ class RolesContentNavigationProvider implements ContentNavigationProviderInterfa
      */
     public function getNavigationItems(array $options = [])
     {
-        $details = new ContentNavigationItem('content-navigation.security.ckeditor');
-        $details->setAction('ckeditor');
+        $details = new ContentNavigationItem('content-navigation.security.texteditor');
+        $details->setAction('texteditor');
         $details->setPosition(10);
         $details->setDisplay(['edit']);
-        $details->setComponent('roles/ckeditor@sulucontent');
+        $details->setComponent('roles/texteditor@sulucontent');
 
         return [$details];
     }

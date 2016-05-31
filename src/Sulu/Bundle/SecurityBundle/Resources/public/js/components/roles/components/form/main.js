@@ -66,7 +66,7 @@ define(['config'], function(Config) {
 
             this.sandbox.on('sulu.role.saved', function(id) {
                 this.options.data.id = id;
-                this.setHeaderBar(true);
+                this.setHeaderBar(true);    
             }, this);
 
             // back to list

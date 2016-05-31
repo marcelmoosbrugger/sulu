@@ -11,10 +11,7 @@ define(['services/husky/mediator'], function(Mediator) {
 
     'use strict';
 
-    /** @constructor **/
-    function RoleRouter() {}
-
-    RoleRouter.prototype = {
+    return {
 
         /**
          * Navigates to the edit-form.
@@ -39,6 +36,4 @@ define(['services/husky/mediator'], function(Mediator) {
             Mediator.emit('sulu.router.navigate', 'settings/roles');
         }
     };
-
-    return new RoleRouter();
 });

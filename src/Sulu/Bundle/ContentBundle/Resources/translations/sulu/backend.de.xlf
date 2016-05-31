@@ -707,24 +707,24 @@
                 <source>labels.error.content-unpublish-desc</source>
                 <target>Veröffentlichung der Seite konnte nicht widerrufen werden.</target>
             </trans-unit>
-            <trans-unit id="48" resname="content-navigation.security.ckeditor">
-                <source>content-navigation.security.ckeditor</source>
+            <trans-unit id="48" resname="content-navigation.security.texteditor">
+                <source>content-navigation.security.texteditor</source>
                 <target>Text-Editor</target>
             </trans-unit>
-            <trans-unit id="49" resname="security.roles.ckeditor.title">
-                <source>security.roles.ckeditor.title</source>
+            <trans-unit id="49" resname="sulu-content.ckeditor.roles-title">
+                <source>sulu-content.ckeditor.roles-title</source>
                 <target>Einstellungen für Text-Editor</target>
             </trans-unit>
-            <trans-unit id="50" resname="security.roles.ckeditor.type">
-                <source>security.roles.ckeditor.type</source>
+            <trans-unit id="50" resname="sulu-content.ckeditor.roles-type">
+                <source>sulu-content.ckeditor.roles-type</source>
                 <target>Sektion</target>
             </trans-unit>
-            <trans-unit id="51" resname="security.roles.ckeditor.horizontal">
-                <source>security.roles.ckeditor.horizontal</source>
+            <trans-unit id="51" resname="sulu-content.ckeditor.roles-horizontal">
+                <source>sulu-content.ckeditor.roles-horizontal</source>
                 <target>Funktion</target>
             </trans-unit>
-            <trans-unit id="52" resname="security.roles.ckeditor.info">
-                <source>security.roles.ckeditor.info</source>
+            <trans-unit id="52" resname="sulu-content.ckeditor.roles-info">
+                <source>sulu-content.ckeditor.roles-info</source>
                 <target>Die Konfiguration gilt für jeden Text-Editor im System, der von dieser Rolle verwendet wird.</target>
             </trans-unit>
         </body>

@@ -11,14 +11,14 @@
 
 namespace Sulu\Bundle\ContentBundle\Tests\Unit\Admin;
 
-use Sulu\Bundle\ContentBundle\Admin\CKEditorJsConfig;
+use Sulu\Bundle\ContentBundle\Admin\TextEditorJsConfig;
 use Sulu\Bundle\SecurityBundle\Entity\RoleSetting;
 use Sulu\Component\Security\Authentication\RoleInterface;
 use Sulu\Component\Security\Authentication\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class CKEditorJsConfigTest extends \PHPUnit_Framework_TestCase
+class TextEditorJsConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var TokenStorageInterface
@@ -41,7 +41,7 @@ class CKEditorJsConfigTest extends \PHPUnit_Framework_TestCase
     private $roles;
 
     /**
-     * @var CKEditorJsConfig
+     * @var TextEditorJsConfig
      */
     private $jsConfig;
 
@@ -64,33 +64,33 @@ class CKEditorJsConfigTest extends \PHPUnit_Framework_TestCase
             }
         );
 
-        $this->jsConfig = new CKEditorJsConfig($this->tokenStorage->reveal());
+        $this->jsConfig = new TextEditorJsConfig($this->tokenStorage->reveal());
     }
 
-    private function createRole($ckeditorSetting = null)
+    private function createRole($texteditorSetting = null)
     {
         $setting = null;
-        if (null !== $ckeditorSetting) {
+        if (null !== $texteditorSetting) {
             $setting = $this->prophesize(RoleSetting::class);
-            $setting->getKey()->willReturn(CKEditorJsConfig::SETTING_KEY);
-            $setting->getValue()->willReturn($ckeditorSetting);
+            $setting->getKey()->willReturn(TextEditorJsConfig::SETTING_KEY);
+            $setting->getValue()->willReturn($texteditorSetting);
             $setting = $setting->reveal();
         }
 
         $role = $this->prophesize(RoleInterface::class);
-        $role->getSetting(CKEditorJsConfig::SETTING_KEY)->willReturn($setting);
+        $role->getSetting(TextEditorJsConfig::SETTING_KEY)->willReturn($setting);
 
         return $role;
     }
 
     public function testGetName()
     {
-        $this->assertEquals('sulu_content.ckeditor_toolbar', $this->jsConfig->getName());
+        $this->assertEquals('sulu_content.texteditor_toolbar', $this->jsConfig->getName());
     }
 
     public function testGetParametersNoToken()
     {
-        $this->assertEquals(['settingKey' => CKEditorJsConfig::SETTING_KEY], $this->jsConfig->getParameters());
+        $this->assertEquals(['settingKey' => TextEditorJsConfig::SETTING_KEY], $this->jsConfig->getParameters());
     }
 
     public function testGetParametersWrongUser()
@@ -98,7 +98,7 @@ class CKEditorJsConfigTest extends \PHPUnit_Framework_TestCase
         $this->tokenStorage->getToken()->willReturn($this->token->reveal());
         $this->token->getUser()->willReturn(new \stdClass());
 
-        $this->assertEquals(['settingKey' => CKEditorJsConfig::SETTING_KEY], $this->jsConfig->getParameters());
+        $this->assertEquals(['settingKey' => TextEditorJsConfig::SETTING_KEY], $this->jsConfig->getParameters());
     }
 
     public function testGetParametersNoRole()
@@ -106,7 +106,7 @@ class CKEditorJsConfigTest extends \PHPUnit_Framework_TestCase
         $this->tokenStorage->getToken()->willReturn($this->token->reveal());
         $this->token->getUser()->willReturn($this->user->reveal());
 
-        $this->assertEquals(['settingKey' => CKEditorJsConfig::SETTING_KEY], $this->jsConfig->getParameters());
+        $this->assertEquals(['settingKey' => TextEditorJsConfig::SETTING_KEY], $this->jsConfig->getParameters());
     }
 
     public function testGetParametersNoSetting()
@@ -116,7 +116,7 @@ class CKEditorJsConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->roles[] = $this->createRole();
 
-        $this->assertEquals(['settingKey' => CKEditorJsConfig::SETTING_KEY], $this->jsConfig->getParameters());
+        $this->assertEquals(['settingKey' => TextEditorJsConfig::SETTING_KEY], $this->jsConfig->getParameters());
     }
 
     public function testGetParameters()
@@ -139,7 +139,7 @@ class CKEditorJsConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             [
-                'settingKey' => CKEditorJsConfig::SETTING_KEY,
+                'settingKey' => TextEditorJsConfig::SETTING_KEY,
                 'userToolbar' => [
                     'semantics' => ['Format'],
                     'basicstyles' => [
@@ -181,7 +181,7 @@ class CKEditorJsConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             [
-                'settingKey' => CKEditorJsConfig::SETTING_KEY,
+                'settingKey' => TextEditorJsConfig::SETTING_KEY,
                 'userToolbar' => [
                     'semantics' => ['Format', 'Test'],
                     'basicstyles' => [
