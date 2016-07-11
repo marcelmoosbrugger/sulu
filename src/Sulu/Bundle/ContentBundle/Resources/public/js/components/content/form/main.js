@@ -76,6 +76,21 @@ define(['app-config', 'config', 'services/sulupreview/preview'], function(AppCon
             }
         },
 
+        /**
+         * Adds a required constraint to all resource locator paths, which
+         * don't already are required.
+         */
+        makeResourceLocatorPartsRequired: function() {
+            this.getDomElementsForTagName('sulu.rlp.part', function(property) {
+                if (!property.$el.data('element').hasConstraint('required')) {
+                    this.sandbox.form.addConstraint(this.formId, property.$el, 'required', {required: true});
+                    if (!!property.$el.attr('id')) {
+                        this.$find('label[for="' + property.$el.attr('id') + '"]').addClass('required');
+                    }
+                }
+            }.bind(this));
+        },
+
         load: function() {
             // get content data
             this.sandbox.emit('sulu.content.contents.get-data', this.render.bind(this));
@@ -181,6 +196,7 @@ define(['app-config', 'config', 'services/sulupreview/preview'], function(AppCon
             this.propertyConfiguration = {};
             this.createForm(this.data).then(function() {
                 this.initializeResourceLocator();
+                this.makeResourceLocatorPartsRequired();
                 this.changeTemplateDropdownHandler();
 
                 if (!!this.preview) {
@@ -466,7 +482,6 @@ define(['app-config', 'config', 'services/sulupreview/preview'], function(AppCon
         },
 
         submit: function(action) {
-            // check if each part is valid
             var valid = true;
             this.getDomElementsForTagName('sulu.rlp.part', function(property) {
                 if (!property.$el.data('element').validate()) {
@@ -474,8 +489,7 @@ define(['app-config', 'config', 'services/sulupreview/preview'], function(AppCon
                 }
             }.bind(this));
 
-
-            // if rlp-parts are empty dont wait for the resource-locator
+            // if rlp-parts are empty don't wait for the resource-locator
             // because without them it wont be generated
             if (!valid) {
                 return;
