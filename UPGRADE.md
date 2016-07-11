@@ -2,6 +2,12 @@
 
 ## dev-develop
 
+### Item Interface
+
+Subtypes of the ItemInterface (represents an item for the smart-content) must implement a method "getState"
+which indicates state item. The method must return 1 iff the item is in test mode and 2 iff the item is
+published.
+
 ### Documemt Manager Initializer
 
 The `initialize` method of the `InitializerInterface` has now also a `$purge`

@@ -15,6 +15,16 @@ namespace Sulu\Component\SmartContent;
  */
 interface ItemInterface extends ResourceItemInterface
 {
+
+    /**
+     * Returns an integer which indicates the state of the item:
+     * 1 - item is in test state
+     * 2 - item is published
+     *
+     * @return int
+     */
+    public function getState();
+
     /**
      * Returns title of the item.
      *

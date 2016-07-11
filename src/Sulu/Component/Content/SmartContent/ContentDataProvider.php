@@ -248,6 +248,7 @@ class ContentDataProvider implements DataProviderInterface
                 'config' => $filters,
                 'properties' => $properties,
                 'excluded' => $filters['excluded'],
+                'published' => false,
             ]
         );
 

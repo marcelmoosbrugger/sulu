@@ -43,6 +43,20 @@ class ContentDataItem extends ArrayAccessItem implements ItemInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @VirtualProperty
+     */
+    public function getState()
+    {
+        if (!$this->get('published')) {
+            return 1;
+        }
+
+        return 2;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getImage()
     {
