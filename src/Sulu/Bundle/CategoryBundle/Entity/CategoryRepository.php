@@ -174,6 +174,7 @@ class CategoryRepository extends NestedTreeRepository implements CategoryReposit
             ->addSelect('categoryMeta')
             ->addSelect('categoryTranslations')
             ->addSelect('categoryParent')
-            ->addSelect('categoryChildren');
+            ->addSelect('categoryChildren')
+            ->addOrderBy('category.depth', 'asc');
     }
 }
