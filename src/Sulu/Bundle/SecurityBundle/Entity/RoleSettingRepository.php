@@ -13,6 +13,7 @@ namespace Sulu\Bundle\SecurityBundle\Entity;
 
 use Doctrine\ORM\NoResultException;
 use Sulu\Component\Persistence\Repository\ORM\EntityRepository;
+use Sulu\Component\Security\Authentication\RoleSettingInterface;
 
 /**
  * Repository for the Role-Settings, implementing some additional functions for querying objects.
@@ -49,7 +50,7 @@ class RoleSettingRepository extends EntityRepository
      * @param int $roleId
      * @param string $key
      *
-     * @return RoleSetting|null
+     * @return RoleSettingInterface|null
      */
     public function findSetting($roleId, $key)
     {

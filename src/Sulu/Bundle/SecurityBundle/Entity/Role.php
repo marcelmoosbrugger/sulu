@@ -14,6 +14,7 @@ namespace Sulu\Bundle\SecurityBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use JMS\Serializer\Annotation\Exclude;
+use Sulu\Component\Security\Authentication\RoleSettingInterface;
 
 /**
  * Role.
@@ -157,11 +158,11 @@ class Role extends BaseRole
     /**
      * Add setting.
      *
-     * @param RoleSetting $setting
+     * @param RoleSettingInterface $setting
      *
      * @return Role
      */
-    public function addSetting(RoleSetting $setting)
+    public function addSetting(RoleSettingInterface $setting)
     {
         $this->settings->set($setting->getKey(), $setting);
 
@@ -171,9 +172,9 @@ class Role extends BaseRole
     /**
      * Remove setting.
      *
-     * @param RoleSetting $setting
+     * @param RoleSettingInterface $setting
      */
-    public function removeSetting(RoleSetting $setting)
+    public function removeSetting(RoleSettingInterface $setting)
     {
         $this->settings->remove($setting->getKey());
     }

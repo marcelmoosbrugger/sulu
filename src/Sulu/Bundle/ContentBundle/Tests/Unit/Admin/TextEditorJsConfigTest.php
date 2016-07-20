@@ -12,8 +12,8 @@
 namespace Sulu\Bundle\ContentBundle\Tests\Unit\Admin;
 
 use Sulu\Bundle\ContentBundle\Admin\TextEditorJsConfig;
-use Sulu\Bundle\SecurityBundle\Entity\RoleSetting;
 use Sulu\Component\Security\Authentication\RoleInterface;
+use Sulu\Component\Security\Authentication\RoleSettingInterface;
 use Sulu\Component\Security\Authentication\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -71,7 +71,7 @@ class TextEditorJsConfigTest extends \PHPUnit_Framework_TestCase
     {
         $setting = null;
         if (null !== $texteditorSetting) {
-            $setting = $this->prophesize(RoleSetting::class);
+            $setting = $this->prophesize(RoleSettingInterface::class);
             $setting->getKey()->willReturn(TextEditorJsConfig::SETTING_KEY);
             $setting->getValue()->willReturn($texteditorSetting);
             $setting = $setting->reveal();

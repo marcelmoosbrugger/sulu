@@ -67,7 +67,7 @@ class TextEditorJsConfig implements JsConfigInterface
 
         // array_merge_recursive accepts non-unique values they have to be removed
         foreach (array_keys($result) as $section) {
-            $result[$section] = array_unique($result[$section]);
+            $result[$section] = array_values(array_unique($result[$section]));
         }
 
         return ['settingKey' => self::SETTING_KEY, 'userToolbar' => $result];

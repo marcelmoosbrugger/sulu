@@ -15,7 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use Sulu\Bundle\SecurityBundle\Entity\Role;
-use Sulu\Bundle\SecurityBundle\Entity\RoleSetting;
+use Sulu\Bundle\SecurityBundle\Entity\RoleSettingRepository;
 use Sulu\Component\Rest\RestController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,7 +37,7 @@ class RoleSettingController extends RestController implements ClassResourceInter
      */
     public function getAction($roleId, $key)
     {
-        $settingValue = $this->get('sulu_security.role_setting_repository')->findSettingValue($roleId, $key);
+        $settingValue = $this->get('sulu.repository.role_setting')->findSettingValue($roleId, $key);
 
         return $this->handleView($this->view($settingValue));
     }
@@ -55,10 +55,12 @@ class RoleSettingController extends RestController implements ClassResourceInter
     {
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $this->get('doctrine.orm.entity_manager');
+        /** @var RoleSettingRepository $repository */
+        $repository = $this->get('sulu.repository.role_setting');
 
-        $setting = $this->get('sulu_security.role_setting_repository')->findSetting($roleId, $key);
+        $setting = $repository->findSetting($roleId, $key);
         if (!$setting) {
-            $setting = new RoleSetting();
+            $setting = $repository->createNew();
         }
 
         $setting->setKey($key);

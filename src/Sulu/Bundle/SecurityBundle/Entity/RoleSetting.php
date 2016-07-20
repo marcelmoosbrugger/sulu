@@ -11,10 +11,13 @@
 
 namespace Sulu\Bundle\SecurityBundle\Entity;
 
+use Sulu\Component\Security\Authentication\RoleInterface;
+use Sulu\Component\Security\Authentication\RoleSettingInterface;
+
 /**
  * RoleSetting.
  */
-class RoleSetting
+class RoleSetting implements RoleSettingInterface
 {
     /**
      * @var int
@@ -32,14 +35,12 @@ class RoleSetting
     private $value;
 
     /**
-     * @var Role
+     * @var RoleInterface
      */
     private $role;
 
     /**
-     * Get id.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -47,11 +48,7 @@ class RoleSetting
     }
 
     /**
-     * Set key.
-     *
-     * @param string $key
-     *
-     * @return RoleSetting
+     * {@inheritdoc}
      */
     public function setKey($key)
     {
@@ -61,9 +58,7 @@ class RoleSetting
     }
 
     /**
-     * Get key.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getKey()
     {
@@ -71,11 +66,7 @@ class RoleSetting
     }
 
     /**
-     * Set value.
-     *
-     * @param array $value
-     *
-     * @return RoleSetting
+     * {@inheritdoc}
      */
     public function setValue($value)
     {
@@ -85,9 +76,7 @@ class RoleSetting
     }
 
     /**
-     * Get value.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getValue()
     {
@@ -95,13 +84,9 @@ class RoleSetting
     }
 
     /**
-     * Set role.
-     *
-     * @param Role $role
-     *
-     * @return RoleSetting
+     * {@inheritdoc}
      */
-    public function setRole(Role $role = null)
+    public function setRole(RoleInterface $role = null)
     {
         $this->role = $role;
 
@@ -109,9 +94,7 @@ class RoleSetting
     }
 
     /**
-     * Get role.
-     *
-     * @return Role
+     * {@inheritdoc}
      */
     public function getRole()
     {

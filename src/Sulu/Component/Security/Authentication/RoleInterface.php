@@ -13,7 +13,6 @@ namespace Sulu\Component\Security\Authentication;
 
 use Sulu\Bundle\SecurityBundle\Entity\Group;
 use Sulu\Bundle\SecurityBundle\Entity\Permission;
-use Sulu\Bundle\SecurityBundle\Entity\RoleSetting;
 use Sulu\Bundle\SecurityBundle\Entity\SecurityType;
 use Sulu\Bundle\SecurityBundle\Entity\UserRole;
 use Sulu\Component\Persistence\Model\AuditableInterface;
@@ -198,7 +197,7 @@ interface RoleInterface extends AuditableInterface, SecurityIdentityInterface
      *
      * @param string $key
      *
-     * @return RoleSetting|null
+     * @return RoleSettingInterface|null
      */
     public function getSetting($key);
 }

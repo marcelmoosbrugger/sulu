@@ -116,32 +116,42 @@ define([
             return data;
         },
 
+        /**
+         * Changes the data for given data for a row or for a single element.
+         *
+         * @param {Object} data The data of a row or a single element
+         */
         changeData: function(data) {
             if (typeof(data.value) !== 'string') {
-                this.sandbox.dom.each(data.value, function(key, nestedData) {
-                    this.changeData({section: data.section, value: nestedData.value, activated: data.activated});
+                this.sandbox.dom.each(data.value, function(key, elementValue) {
+                    this.changeDataForElement({section: data.section, value: elementValue.value, activated: data.activated});
                 }.bind(this));
-
-                return;
+            } else {
+                this.changeDataForElement(data);
             }
+        },
 
-            if (!!data.activated) {
-                if (_.contains(this.data.toolbarRights[data.section], data.value)) {
+        /**
+         * Changes the data for a single element.
+         *
+         * @param {Object} elementValue The value of a single element.
+         */
+        changeDataForElement: function(elementValue) {
+            if (!!elementValue.activated) {
+                if (_.contains(this.data.toolbarRights[elementValue.section], elementValue.value)) {
                     return;
                 }
-
-                if (!this.data.toolbarRights[data.section]) {
-                    this.data.toolbarRights[data.section] = [];
+                if (!this.data.toolbarRights[elementValue.section]) {
+                    this.data.toolbarRights[elementValue.section] = [];
                 }
+                this.data.toolbarRights[elementValue.section].push(elementValue.value);
 
-                this.data.toolbarRights[data.section].push(data.value);
+            } else {
 
-                return;
-            }
-
-            var index = this.data.toolbarRights[data.section].indexOf(data.value);
-            if (index > -1) {
-                this.data.toolbarRights[data.section].splice(index, 1);
+                var index = this.data.toolbarRights[elementValue.section].indexOf(elementValue.value);
+                if (index > -1) {
+                    this.data.toolbarRights[elementValue.section].splice(index, 1);
+                }
             }
         },
 
