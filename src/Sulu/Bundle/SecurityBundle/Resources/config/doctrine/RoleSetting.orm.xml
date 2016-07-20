@@ -21,7 +21,7 @@
 
         <many-to-one field="role" target-entity="Sulu\Component\Security\Authentication\RoleInterface"
                      inversed-by="settings">
-            <join-column name="roleId" referenced-column-name="id" />
+            <join-column name="roleId" referenced-column-name="id" on-delete="CASCADE" />
         </many-to-one>
 
     </entity>
