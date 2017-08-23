@@ -22,61 +22,7 @@ exports[`CroppedText should render 1`] = `
     class="back"
   >
     <span>
-      .
-    </span>
-    <span>
-      d
-    </span>
-    <span>
-      e
-    </span>
-    <span>
-      p
-    </span>
-    <span>
-      p
-    </span>
-    <span>
-      o
-    </span>
-    <span>
-      r
-    </span>
-    <span>
-      c
-    </span>
-    <span>
-       
-    </span>
-    <span>
-      t
-    </span>
-    <span>
-      e
-    </span>
-    <span>
-      g
-    </span>
-    <span>
-       
-    </span>
-    <span>
-      l
-    </span>
-    <span>
-      l
-    </span>
-    <span>
-      i
-    </span>
-    <span>
-      w
-    </span>
-    <span>
-       
-    </span>
-    <span>
-      h
+      h will get cropped.
     </span>
   </div>
 </div>
